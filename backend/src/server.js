@@ -10,8 +10,16 @@ async function start() {
     await connectDB();
     logger.info('Database connection established');
 
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
+    });
+
+    // app.listen's callback only fires on success - a bind failure like
+    // EADDRINUSE (port already taken) shows up as an 'error' event on the
+    // server instead, on a later tick that our try/catch above can't see
+    server.on('error', (err) => {
+      logger.error({ err }, 'Server failed to start');
+      process.exit(1);
     });
   } catch (err) {
     logger.error({ err }, 'Failed to start server');

@@ -6,9 +6,6 @@ function errorHandler(err, req, res, next) {
   const statusCode = err.statusCode || 500;
   const isOperational = err.isOperational || false;
 
-  // operational errors (bad request, not found, unauthorized) are expected
-  // stuff so we log them as warnings. anything else is a real bug - log it
-  // as an error with the full stack so we can actually debug it later.
   if (isOperational) {
     logger.warn({ err, path: req.originalUrl }, err.message);
   } else {
@@ -21,7 +18,7 @@ function errorHandler(err, req, res, next) {
   });
 }
 
-// wraps async route handlers so we don't need try/catch everywhere
+// every controller wraps its handler in this instead of a try/catch block
 function catchAsync(fn) {
   return (req, res, next) => {
     fn(req, res, next).catch(next);

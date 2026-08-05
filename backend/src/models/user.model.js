@@ -28,12 +28,16 @@ const userSchema = new mongoose.Schema(
 // mongo has no built-in "ON DELETE CASCADE" like mysql did, so we clean up
 // a user's notes ourselves whenever a user gets deleted this way
 userSchema.pre('findOneAndDelete', async function (next) {
-  const Note = require('./note.model');
-  const user = await this.model.findOne(this.getQuery());
-  if (user) {
-    await Note.deleteMany({ userId: user._id });
+  try {
+    const Note = require('./note.model');
+    const user = await this.model.findOne(this.getQuery());
+    if (user) {
+      await Note.deleteMany({ userId: user._id });
+    }
+    next();
+  } catch (err) {
+    next(err);
   }
-  next();
 });
 
 module.exports = mongoose.model('User', userSchema);
