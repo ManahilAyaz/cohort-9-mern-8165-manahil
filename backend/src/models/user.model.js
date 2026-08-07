@@ -1,12 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose=require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const userSchema=new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
       trim: true,
     },
+
     email: {
       type: String,
       required: true,
@@ -14,30 +15,41 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    // storing the bcrypt hash here, never the plain password
+
+    // store hashed password
     password: {
       type: String,
       required: true,
     },
   },
   {
-    timestamps: true, // gives us createdAt / updatedAt automatically
+    timestamps: true,
   }
 );
 
-// mongo has no built-in "ON DELETE CASCADE" like mysql did, so we clean up
-// a user's notes ourselves whenever a user gets deleted this way
-userSchema.pre('findOneAndDelete', async function (next) {
+// delete user's notes when user is deleted
+userSchema.pre("findOneAndDelete", async function (next) {
+
   try {
-    const Note = require('./note.model');
-    const user = await this.model.findOne(this.getQuery());
+
+    const Note=require("./note.model");
+
+    const user=await this.model.findOne(
+      this.getQuery()
+    );
+
     if (user) {
-      await Note.deleteMany({ userId: user._id });
+      await Note.deleteMany({
+        userId: user._id,
+      });
     }
+
     next();
+
   } catch (err) {
     next(err);
   }
+
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports=mongoose.model("User", userSchema);

@@ -1,24 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose=require("mongoose");
 
-const noteSchema = new mongoose.Schema(
+const noteSchema=new mongoose.Schema(
   {
     title: {
       type: String,
       trim: true,
-      default: 'Untitled note',
+      default: "Untitled note",
     },
-    // this holds the rich text content - storing as a plain string since the
-    // editor output (HTML/delta json, depending what we pick on the frontend)
-    // can get fairly long, and Mongo doesn't care about length the way a
-    // fixed VARCHAR would
+
+    // note content
     content: {
       type: String,
-      default: '',
+      default: "",
     },
-    // reference to the owning user - this is Mongo's version of a foreign key
+
+    // user who owns this note
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
   },
@@ -27,4 +26,4 @@ const noteSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('Note', noteSchema);
+module.exports=mongoose.model("Note", noteSchema);
