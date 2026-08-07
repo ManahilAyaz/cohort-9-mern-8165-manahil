@@ -113,10 +113,7 @@ const deleteNote=catchAsync(async (req, res)=>{
     "Note deleted"
   );
 
-  res.status(204).json({
-    success: true,
-    data: null,
-  });
+  res.status(204).send();
 
 });
 

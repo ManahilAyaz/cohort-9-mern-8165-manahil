@@ -11,7 +11,7 @@ function errorHandler(err, req, res, next) {
     logger.warn(
       {
         err,
-        path: req.originalUrl,
+        path: route,
       },
       err.message
     );
@@ -21,13 +21,17 @@ function errorHandler(err, req, res, next) {
     logger.error(
       {
         err,
-        path: req.originalUrl,
+        path: route,
       },
       "Unexpected error"
     );
 
   }
-
+  
+  if (res.headersSent) {
+    return next(err);
+  }
+  
   res.status(statusCode).json({
     success: false,
     message: isOperational
