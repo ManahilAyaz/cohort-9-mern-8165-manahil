@@ -1,0 +1,35 @@
+{
+  "name": "notes-app-backend",
+  "version": "1.0.0",
+  "description": "Backend API for the Notes App (Express + MongoDB + Pino)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "cross-env NODE_ENV=test mocha tests/**/*.test.js --timeout 10000 --exit",
+    "test:coverage": "nyc npm test"
+  },
+  "keywords": ["notes", "mern", "express", "mysql"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.1",
+    "pino": "^9.2.0",
+    "pino-http": "^10.1.0",
+    "pino-pretty": "^11.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.4.1",
+    "chai-http": "^4.4.0",
+    "cross-env": "^7.0.3",
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.4",
+    "nyc": "^17.0.0",
+    "sinon": "^18.0.0"
+  }
+}
