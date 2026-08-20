@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: 'Kalam', cursive;
+}
+
+/* board backgrounds - just css patterns, no images needed */
+.board-cork {
+  background-color: #b8875a;
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(92,58,32,0.55) 1.5px, transparent 1.6px),
+    radial-gradient(circle at 45% 65%, rgba(160,110,70,0.45) 1.2px, transparent 1.3px),
+    radial-gradient(circle at 75% 35%, rgba(92,58,32,0.45) 1.8px, transparent 1.9px),
+    radial-gradient(circle at 85% 80%, rgba(160,110,70,0.5) 1.3px, transparent 1.4px),
+    radial-gradient(circle at 30% 85%, rgba(70,45,25,0.45) 1.4px, transparent 1.5px),
+    radial-gradient(circle at 60% 15%, rgba(70,45,25,0.35) 1px, transparent 1.1px),
+    linear-gradient(135deg, rgba(255,255,255,0.06), rgba(0,0,0,0.1));
+  background-size: 40px 40px, 55px 55px, 35px 35px, 60px 60px, 45px 45px, 30px 30px, 100% 100%;
+}
+
+.board-paper {
+  background-color: #f5f0e6;
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+.board-white {
+  background-color: #fafafa;
+}
+
+.board-dark {
+  background-color: #2b2b2b;
+  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+/* small 3D pushpin - CSS only */
+/* whole pushpin */
+.pin-icon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 32px;
+  height: 38px;
+
+  /* tilt the complete pin */
+  transform: translateX(-50%) rotate(20deg);
+  transform-origin: 50% 75%;
+
+  z-index: 5;
+}
+
+/* red pushpin head */
+.pin-head {
+  position: absolute;
+  top: -17px;
+  left: 50%;
+
+  width: 25px;
+  height: 17px;
+
+  transform: translateX(-50%);
+  border-radius: 50% 50% 45% 45%;
+
+  background: linear-gradient(
+    to bottom,
+    #ff7777 0%,
+    #f23838 35%,
+    #d91f1f 70%,
+    #a91515 100%
+  );
+
+  box-shadow:
+    inset 2px 2px 3px rgba(255,255,255,0.7),
+    inset -3px -3px 4px rgba(80,0,0,0.35),
+    2px 4px 5px rgba(0,0,0,0.35);
+}
+
+/* red plastic body/stem */
+.pin-stem {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+
+  width: 10px;
+  height: 17px;
+
+  transform: translateX(-50%);
+  border-radius: 3px 3px 5px 5px;
+
+  background: linear-gradient(
+    to right,
+    #9f1111 0%,
+    #dc2424 25%,
+    #f64a4a 50%,
+    #d51f1f 75%,
+    #8f1010 100%
+  );
+
+  box-shadow:
+    inset 2px 0 2px rgba(255,255,255,0.4),
+    inset -2px 0 2px rgba(80,0,0,0.35),
+    2px 3px 4px rgba(0,0,0,0.3);
+}
+
+/* metal needle going into the paper */
+.pin-needle {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+
+  width: 3px;
+  height: 17px;
+
+  transform: translateX(-50%) rotate(5deg);
+
+  background: linear-gradient(
+    to right,
+    #555 0%,
+    #aaa 30%,
+    #f5f5f5 50%,
+    #888 70%,
+    #444 100%
+  );
+
+  clip-path: polygon(
+    20% 0,
+    80% 0,
+    55% 82%,
+    50% 100%,
+    45% 82%
+  );
+
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.35);
+}
