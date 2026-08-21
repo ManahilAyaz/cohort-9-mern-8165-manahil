@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import stripHtml from '../utils/stripHtml'
 
 const colorMap={
   yellow:'bg-yellow-200 border-yellow-300',
@@ -101,7 +102,7 @@ function StickyNote({ note, onEdit, onDelete }){
         </div>
       </div>
 
-      <p className="text-sm mt-2 line-clamp-4 break-words">{note.content}</p>
+      <p className="text-sm mt-2 line-clamp-4 break-words">{stripHtml(note.content)}</p>
     </div>
   )
 }

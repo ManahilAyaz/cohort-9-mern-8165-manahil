@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Toolbar from '../components/Toolbar'
 import StickyNote from '../components/StickyNote'
+import DraggableNote from '../components/DraggableNote'
 import NoteEditor from '../components/NoteEditor'
 import api from '../api/axios'
 
@@ -23,12 +24,27 @@ function pickColor(id){
 
 function Dashboard(){
   const [boardStyle, setBoardStyle]=useState('cork')
+  const [mode, setMode]=useState('organized')
+  const [columns, setColumns]=useState(4)
   const [notes, setNotes]=useState([])
   const [loading, setLoading]=useState(true)
   const [error, setError]=useState('')
 
   const [editorOpen, setEditorOpen]=useState(false)
   const [editingNote, setEditingNote]=useState(null)
+
+  const [positions, setPositions]=useState({})
+
+  function getPosition(note, index){
+    if(positions[note.id]) return positions[note.id]
+    const col=index % 4
+    const row=Math.floor(index / 4)
+    return { x: col*220+40, y: row*220+40 }
+  }
+
+  function handleDragStop(id, x, y){
+    setPositions((prev)=>({ ...prev, [id]:{ x, y } }))
+  }
 
   async function fetchNotes(){
     try{
@@ -87,7 +103,15 @@ function Dashboard(){
 
   return (
     <div className="min-h-screen">
-      <Toolbar boardStyle={boardStyle} setBoardStyle={setBoardStyle} onNewNote={openNewNoteEditor} />
+      <Toolbar
+        boardStyle={boardStyle}
+        setBoardStyle={setBoardStyle}
+        onNewNote={openNewNoteEditor}
+        mode={mode}
+        setMode={setMode}
+        columns={columns}
+        setColumns={setColumns}
+      />
 
       <div className={`min-h-[calc(100vh-64px)] p-8 ${boardClass[boardStyle]}`}>
         {loading && <p className="text-center">Loading notes...</p>}
@@ -96,14 +120,57 @@ function Dashboard(){
           <p className="text-center">No notes yet, click + New Note to make one.</p>
         )}
 
-        <div className="flex flex-wrap gap-8 justify-center sm:justify-start">
-          {notes.map((note)=>(
-            <StickyNote key={note.id} note={note} onEdit={openEditNoteEditor} onDelete={handleDeleteNote} />
-          ))}
-        </div>
+        {mode==='organized' && (
+          <div
+            className="grid gap-8 justify-center"
+            style={{ gridTemplateColumns:`repeat(${columns}, 192px)` }}
+          >
+            {notes.map((note)=>(
+              <StickyNote
+                key={note.id}
+                note={note}
+                onEdit={openEditNoteEditor}
+                onDelete={handleDeleteNote}
+              />
+            ))}
+          </div>
+        )}
+
+        {mode==='free' && (
+          <div className="relative" style={{ minHeight:'70vh' }}>
+            {notes.map((note, index)=>(
+              <DraggableNote
+                key={note.id}
+                note={note}
+                position={getPosition(note, index)}
+                onStop={handleDragStop}
+                onEdit={openEditNoteEditor}
+                onDelete={handleDeleteNote}
+              />
+            ))}
+          </div>
+        )}
+
+        {mode==='shapes' && (
+          <div className="flex flex-wrap gap-8 justify-center sm:justify-start">
+            {notes.map((note)=>(
+              <StickyNote
+                key={note.id}
+                note={note}
+                onEdit={openEditNoteEditor}
+                onDelete={handleDeleteNote}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
-      <NoteEditor isOpen={editorOpen} initialNote={editingNote} onSave={handleSaveNote} onCancel={closeEditor} />
+      <NoteEditor
+        isOpen={editorOpen}
+        initialNote={editingNote}
+        onSave={handleSaveNote}
+        onCancel={closeEditor}
+      />
     </div>
   )
 }

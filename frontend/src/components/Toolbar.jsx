@@ -1,4 +1,4 @@
-function Toolbar({ boardStyle, setBoardStyle, onNewNote }){
+function Toolbar({ boardStyle, setBoardStyle, onNewNote, mode, setMode, columns, setColumns }){
   return (
     <div className="flex flex-wrap items-center gap-3 px-4 py-3 bg-white/90 shadow-md sticky top-0 z-10">
       <button
@@ -9,10 +9,42 @@ function Toolbar({ boardStyle, setBoardStyle, onNewNote }){
       </button>
 
       <div className="flex gap-1 bg-gray-100 rounded p-1">
-        <button className="px-3 py-1 rounded bg-white shadow text-sm font-semibold">Organized</button>
-        <button className="px-3 py-1 rounded text-sm text-gray-500">Free / Messy</button>
-        <button className="px-3 py-1 rounded text-sm text-gray-500">Shapes</button>
+        <button
+          onClick={()=>setMode('organized')}
+          className={`px-3 py-1 rounded text-sm font-semibold ${mode==='organized' ? 'bg-white shadow' : 'text-gray-500'}`}
+        >
+          Organized
+        </button>
+        <button
+          onClick={()=>setMode('free')}
+          className={`px-3 py-1 rounded text-sm font-semibold ${mode==='free' ? 'bg-white shadow' : 'text-gray-500'}`}
+        >
+          Free / Messy
+        </button>
+        <button
+          onClick={()=>setMode('shapes')}
+          className={`px-3 py-1 rounded text-sm font-semibold ${mode==='shapes' ? 'bg-white shadow' : 'text-gray-500'}`}
+        >
+          Shapes
+        </button>
       </div>
+
+      {mode==='organized' && (
+        <div className="flex items-center gap-1 text-sm">
+          <label>Columns:</label>
+          <select
+            value={columns}
+            onChange={(e)=>setColumns(Number(e.target.value))}
+            className="border rounded px-2 py-1"
+          >
+            <option value={2}>2</option>
+            <option value={3}>3</option>
+            <option value={4}>4</option>
+            <option value={5}>5</option>
+            <option value={6}>6</option>
+          </select>
+        </div>
+      )}
 
       <input
         type="text"

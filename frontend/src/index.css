@@ -37,6 +37,10 @@ body {
   background-size: 14px 14px;
 }
 
+.ql-editor {
+  min-height: 140px;
+}
+
 /* small 3D pushpin - CSS only */
 /* whole pushpin */
 .pin-icon {
