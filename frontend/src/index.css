@@ -5,6 +5,7 @@
 body {
   margin: 0;
   font-family: 'Kalam', cursive;
+  overflow-x: hidden;
 }
 
 /* board backgrounds - just css patterns, no images needed */

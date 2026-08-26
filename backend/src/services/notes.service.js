@@ -43,6 +43,22 @@ async function updateNote(noteId, userId, updates) {
     note.content=updates.content;
   }
 
+  if (updates.positionX !== undefined){
+    note.positionX=updates.positionX;
+  } 
+  
+  if (updates.positionY !== undefined) {
+    note.positionY=updates.positionY;
+  }
+
+  if (updates.color !== undefined) {
+    note.color=updates.color;
+  }
+
+  if (updates.favorite !== undefined) {
+    note.favorite=updates.favorite;
+  }
+  
   await note.save();
 
   return note;

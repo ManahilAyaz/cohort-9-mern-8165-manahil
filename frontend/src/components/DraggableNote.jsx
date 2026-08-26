@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import Draggable from 'react-draggable'
 import StickyNote from './StickyNote'
 
-function DraggableNote({ note, position, onStop, onEdit, onDelete }){
+function DraggableNote({ note, position, zIndex, onStop, onEdit, onDelete, onColorChange, onToggleFavorite, onBringToFront, onSendToBack, onMenuToggle }){
   const nodeRef=useRef(null)
 
   return (
@@ -12,8 +12,17 @@ function DraggableNote({ note, position, onStop, onEdit, onDelete }){
       cancel="button"
       onStop={(e, data)=>onStop(note.id, data.x, data.y)}
     >
-      <div ref={nodeRef} className="absolute cursor-move">
-        <StickyNote note={note} onEdit={onEdit} onDelete={onDelete} />
+      <div ref={nodeRef} className="absolute cursor-move" style={{ zIndex }}>
+        <StickyNote
+          note={note}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onColorChange={onColorChange}
+          onToggleFavorite={onToggleFavorite}
+          onBringToFront={onBringToFront}
+          onSendToBack={onSendToBack}
+          onMenuToggle={onMenuToggle}
+        />
       </div>
     </Draggable>
   )

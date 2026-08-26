@@ -72,6 +72,10 @@ const updateNote=catchAsync(async (req, res)=>{
 
   const title=req.body.title;
   const content=req.body.content;
+  const positionX=req.body.positionX;
+  const positionY=req.body.positionY;
+  const color=req.body.color;
+  const favorite=req.body.favorite;
 
   const note=await notesService.updateNote(
     req.params.id,
@@ -79,6 +83,10 @@ const updateNote=catchAsync(async (req, res)=>{
     {
       title: title,
       content: content,
+      positionX: positionX,
+      positionY: positionY,
+      color: color,
+      favorite: favorite,
     }
   );
 

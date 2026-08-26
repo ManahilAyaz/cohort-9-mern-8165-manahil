@@ -1,6 +1,8 @@
-function Toolbar({ boardStyle, setBoardStyle, onNewNote, mode, setMode, columns, setColumns }){
+import ProfileMenu from './ProfileMenu'
+
+function Toolbar({ boardStyle, setBoardStyle, onNewNote, mode, setMode, columns, setColumns, searchTerm, setSearchTerm, filterValue, setFilterValue, shapeType, setShapeType }){
   return (
-    <div className="flex flex-wrap items-center gap-3 px-4 py-3 bg-white/90 shadow-md sticky top-0 z-10">
+    <div className="flex flex-wrap items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 bg-white/90 shadow-md sticky top-0 z-10">
       <button
         onClick={onNewNote}
         className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-4 py-2 rounded shadow"
@@ -46,21 +48,43 @@ function Toolbar({ boardStyle, setBoardStyle, onNewNote, mode, setMode, columns,
         </div>
       )}
 
+      {mode==='shapes' && (
+        <div className="flex items-center gap-1 text-sm">
+          <label>Shape:</label>
+          <select
+            value={shapeType}
+            onChange={(e)=>setShapeType(e.target.value)}
+            className="border rounded px-2 py-1"
+          >
+            <option value="heart">Heart</option>
+            <option value="circle">Circle</option>
+            <option value="star">Star</option>
+            <option value="cloud">Cloud</option>
+          </select>
+        </div>
+      )}
+
       <input
         type="text"
         placeholder="Search notes..."
+        value={searchTerm}
+        onChange={(e)=>setSearchTerm(e.target.value)}
         className="border rounded px-3 py-1.5 text-sm w-48"
       />
 
-      <select className="border rounded px-2 py-1.5 text-sm">
-        <option>All</option>
-        <option>Favorites</option>
-        <option>Yellow</option>
-        <option>Pink</option>
-        <option>Blue</option>
-        <option>Green</option>
-        <option>Orange</option>
-        <option>Purple</option>
+      <select
+        value={filterValue}
+        onChange={(e)=>setFilterValue(e.target.value)}
+        className="border rounded px-2 py-1.5 text-sm"
+      >
+        <option value="all">All</option>
+        <option value="favorites">Favorites</option>
+        <option value="yellow">Yellow</option>
+        <option value="pink">Pink</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="orange">Orange</option>
+        <option value="purple">Purple</option>
       </select>
 
       <select
@@ -73,6 +97,8 @@ function Toolbar({ boardStyle, setBoardStyle, onNewNote, mode, setMode, columns,
         <option value="white">Clean white</option>
         <option value="dark">Dark board</option>
       </select>
+
+      <ProfileMenu />
     </div>
   )
 }
