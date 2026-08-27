@@ -8,8 +8,8 @@ function isValidUpdate(body){
   if(body.content!==undefined && typeof body.content!=='string') return false
   if(body.color!==undefined && typeof body.color!=='string') return false
   if(body.favorite!==undefined && typeof body.favorite!=='boolean') return false
-  if(body.positionX!==undefined && typeof body.positionX!=='number') return false
-  if(body.positionY!==undefined && typeof body.positionY!=='number') return false
+  if(body.positionX!==undefined && (typeof body.positionX!=='number' || !Number.isFinite(body.positionX) || body.positionX<0)) return false
+  if(body.positionY!==undefined && (typeof body.positionY!=='number' || !Number.isFinite(body.positionY) || body.positionY<0)) return false
   return true
 }
 

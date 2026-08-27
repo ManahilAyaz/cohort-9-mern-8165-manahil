@@ -9,6 +9,7 @@ function DraggableNote({ note, position, zIndex, onStop, onEdit, onDelete, onCol
     <Draggable
       nodeRef={nodeRef}
       defaultPosition={position}
+      bounds="parent"
       cancel="button,input"
       onStop={(e, data)=>onStop(note.id, data.x, data.y)}
     >

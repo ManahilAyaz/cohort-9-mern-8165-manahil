@@ -148,16 +148,18 @@ function Dashboard(){
   }
 
   async function handleDragStop(id, x, y){
-    setPositions((prev)=>({ ...prev, [id]:{ x, y } }))
+    const safeX=Math.max(0, x)
+    const safeY=Math.max(0, y)
+    setPositions((prev)=>({ ...prev, [id]:{ x:safeX, y:safeY } }))
     try{
-      await api.patch(`/notes/${id}`, { positionX:x, positionY:y })
+      await api.patch(`/notes/${id}`, { positionX:safeX, positionY:safeY })
     }catch(err){
       setError('Could not save note position')
     }
   }
 
   function handleShapeDragStop(id, x, y){
-    setShapePositions((prev)=>({ ...prev, [id]:{ x, y } }))
+    setShapePositions((prev)=>({ ...prev, [id]:{ x:Math.max(0,x), y:Math.max(0,y) } }))
   }
 
   function applyShape(){
@@ -337,7 +339,7 @@ function Dashboard(){
             >
               {visibleNotes.map((note, index)=>(
                 <DraggableNote
-                  key={note.id}
+                  key={`${note.id}-${windowWidth}`}
                   note={note}
                   position={getPosition(note, index)}
                   zIndex={getZIndexFor(note)}
