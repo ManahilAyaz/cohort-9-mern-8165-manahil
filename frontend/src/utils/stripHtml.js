@@ -1,8 +1,8 @@
 function stripHtml(html){
   if(!html) return ''
-  const div=document.createElement('div')
-  div.innerHTML=html
-  return div.textContent || div.innerText || ''
+  const parser=new DOMParser()
+  const doc=parser.parseFromString(html, 'text/html')
+  return doc.body.textContent || ''
 }
 
 export default stripHtml

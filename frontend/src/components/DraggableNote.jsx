@@ -9,7 +9,7 @@ function DraggableNote({ note, position, zIndex, onStop, onEdit, onDelete, onCol
     <Draggable
       nodeRef={nodeRef}
       defaultPosition={position}
-      cancel="button"
+      cancel="button,input"
       onStop={(e, data)=>onStop(note.id, data.x, data.y)}
     >
       <div ref={nodeRef} className="absolute cursor-move" style={{ zIndex }}>

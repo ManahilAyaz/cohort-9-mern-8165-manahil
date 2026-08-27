@@ -55,7 +55,7 @@ function generateStar(count, centerX, centerY, size){
 
 function generateCloud(count, centerX, centerY, size){
   const positions=[]
-  const width=size * 2.2
+  const width=size * 1.6
   const height=size * 0.9
 
   for(let i=0;i<count;i++){

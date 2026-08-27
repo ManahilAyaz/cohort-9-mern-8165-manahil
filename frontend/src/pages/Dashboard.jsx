@@ -98,15 +98,19 @@ function Dashboard(){
   }
 
   function handleBringToFront(id){
-    const current=Object.values(zOrder)
-    const maxZ=current.length ? Math.max(...current, 1) : 1
-    setZOrder((prev)=>({ ...prev, [id]: maxZ + 1 }))
+    setZOrder((prev)=>{
+      const current=Object.values(prev)
+      const maxZ=current.length ? Math.max(...current, 1) : 1
+      return { ...prev, [id]: maxZ + 1 }
+    })
   }
 
   function handleSendToBack(id){
-    const current=Object.values(zOrder)
-    const minZ=current.length ? Math.min(...current, 1) : 1
-    setZOrder((prev)=>({ ...prev, [id]: minZ - 1 }))
+    setZOrder((prev)=>{
+      const current=Object.values(prev)
+      const minZ=current.length ? Math.min(...current, 1) : 1
+      return { ...prev, [id]: minZ - 1 }
+    })
   }
 
   async function handleToggleFavorite(id, favorite){
@@ -197,8 +201,8 @@ function Dashboard(){
       const res=await api.get('/notes')
       const mapped=res.data.data.map((n)=>({
         id:n._id,
-        title:n.title,
-        content:n.content,
+        title:n.title || '',
+        content:n.content || '',
         color:n.color || pickColor(n._id),
         favorite:n.favorite || false,
         positionX:n.positionX,
