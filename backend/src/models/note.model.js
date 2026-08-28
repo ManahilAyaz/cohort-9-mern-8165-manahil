@@ -14,12 +14,33 @@ const noteSchema=new mongoose.Schema(
       default: "",
     },
 
+    positionX: {
+      type: Number,
+      default: null,
+    },
+
+    positionY: {
+      type: Number,
+      default: null,
+    },
+
     // user who owns this note
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
+
+    color: {
+      type: String,
+      default: 'yellow',
+    },
+
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
+  
   },
   {
     timestamps: true,

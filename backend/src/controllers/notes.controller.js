@@ -3,6 +3,16 @@ const { catchAsync }=require("../middleware/errorHandler");
 const AppError=require("../utils/appError");
 const logger=require("../config/logger");
 
+function isValidUpdate(body){
+  if(body.title!==undefined && typeof body.title!=='string') return false
+  if(body.content!==undefined && typeof body.content!=='string') return false
+  if(body.color!==undefined && typeof body.color!=='string') return false
+  if(body.favorite!==undefined && typeof body.favorite!=='boolean') return false
+  if(body.positionX!==undefined && (typeof body.positionX!=='number' || !Number.isFinite(body.positionX) || body.positionX<0)) return false
+  if(body.positionY!==undefined && (typeof body.positionY!=='number' || !Number.isFinite(body.positionY) || body.positionY<0)) return false
+  return true
+}
+
 // get all notes
 const getNotes=catchAsync(async (req, res)=>{
 
@@ -68,10 +78,18 @@ const createNote=catchAsync(async (req, res, next)=>{
 });
 
 // update note
-const updateNote=catchAsync(async (req, res)=>{
+const updateNote=catchAsync(async (req,res,next)=>{
+
+  if (!isValidUpdate(req.body)) {
+    return next(new AppError("Invalid note data provided.", 400));
+  }
 
   const title=req.body.title;
   const content=req.body.content;
+  const positionX=req.body.positionX;
+  const positionY=req.body.positionY;
+  const color=req.body.color;
+  const favorite=req.body.favorite;
 
   const note=await notesService.updateNote(
     req.params.id,
@@ -79,6 +97,10 @@ const updateNote=catchAsync(async (req, res)=>{
     {
       title: title,
       content: content,
+      positionX: positionX,
+      positionY: positionY,
+      color: color,
+      favorite: favorite,
     }
   );
 

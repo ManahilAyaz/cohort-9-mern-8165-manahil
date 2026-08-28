@@ -1,4 +1,16 @@
 import { useState, useEffect } from 'react'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import stripHtml from '../utils/stripHtml'
+
+// keep the toolbar small, this is a sticky note not a word document
+const quillModules={
+  toolbar: [
+    ['bold', 'italic', 'underline'],
+    [{ list:'ordered' }, { list:'bullet' }],
+    ['clean'],
+  ],
+}
 
 function NoteEditor({ isOpen, initialNote, onSave, onCancel }){
   const [title, setTitle]=useState('')
@@ -20,7 +32,7 @@ function NoteEditor({ isOpen, initialNote, onSave, onCancel }){
   if(!isOpen) return null
 
   async function handleSave(){
-    if(!title.trim() && !content.trim()){
+    if(!title.trim() && !stripHtml(content).trim()){
       setError('Add a title or some content before saving.')
       return
     }
@@ -50,16 +62,21 @@ function NoteEditor({ isOpen, initialNote, onSave, onCancel }){
           className="border w-full p-2 mb-3 rounded font-semibold"
         />
 
-        <textarea
-          placeholder="Write your note..."
-          value={content}
-          onChange={(e)=>setContent(e.target.value)}
-          rows={6}
-          className="border w-full p-2 mb-4 rounded resize-none"
-        />
+        <div className="mb-4">
+          <ReactQuill
+            theme="snow"
+            value={content}
+            onChange={setContent}
+            placeholder="Write your note..."
+            modules={quillModules}
+          />
+        </div>
 
         <div className="flex justify-end gap-2">
-          <button onClick={onCancel} className="px-4 py-2 rounded border hover:bg-gray-50">
+          <button
+            onClick={onCancel}
+            className="px-4 py-2 rounded border hover:bg-gray-50"
+          >
             Cancel
           </button>
           <button
